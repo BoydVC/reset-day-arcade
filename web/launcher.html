@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reset-Day Arcade</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect width=%2716%27 height=%2716%27 rx=%273%27 fill=%27%23ff3fb4%27/%3E%3Ccircle cx=%278%27 cy=%278%27 r=%274%27 fill=%27%23ffd23f%27/%3E%3C/svg%3E">
+<style>
+:root{--bg:#07040f;--panel:#120a24;--ink:#f4ecff;--dim:#a79bc4;--neon:#ff3fb4;--cyan:#38f0ff;--gold:#ffd23f}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{background:
+  radial-gradient(1200px 500px at 50% -10%,#3a1170 0%,transparent 60%),
+  repeating-linear-gradient(90deg,transparent 0 59px,#ffffff08 59px 60px),
+  repeating-linear-gradient(0deg,transparent 0 59px,#ffffff08 59px 60px),var(--bg);min-height:100%}
+.cab{max-width:1220px;margin:18px auto 30px;padding:0 18px}
+.marquee{position:relative;border-radius:22px 22px 8px 8px;padding:22px 24px 18px;text-align:center;
+  background:linear-gradient(180deg,#2a0d4f,#160832);border:3px solid #5b2aa0;
+  box-shadow:0 0 0 6px #0c0619,0 0 40px #ff3fb455,inset 0 0 40px #ff3fb433}
+.marquee h1{margin:0;font:900 clamp(34px,6vw,68px)/1 "Courier New",ui-monospace,monospace;letter-spacing:.08em;
+  color:#fff;text-shadow:0 0 6px #fff,0 0 18px var(--neon),0 0 36px var(--neon),0 0 60px #ff3fb488;animation:flick 6s infinite}
+.marquee p{margin:10px 0 0;font:700 14px/1.4 ui-monospace,"Courier New",monospace;letter-spacing:.25em;color:var(--cyan);text-shadow:0 0 10px var(--cyan)}
+.bulbs{position:absolute;left:14px;right:14px;height:8px;display:flex;justify-content:space-between}
+.bulbs.t{top:7px}.bulbs.b{bottom:5px}
+.bulbs i{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);animation:bulb 1.2s infinite}
+.bulbs i:nth-child(2n){animation-delay:.6s}
+@keyframes bulb{50%{opacity:.25;box-shadow:none}}
+@keyframes flick{0%,92%,100%{opacity:1}93%{opacity:.6}94%{opacity:1}96%{opacity:.75}}
+.bezel{margin-top:12px;padding:22px;border-radius:10px;background:linear-gradient(180deg,#0f0820,#0a0616);
+  border:3px solid #33195f;box-shadow:0 0 0 6px #0c0619,inset 0 0 60px #000}
+.screen{border-radius:14px;padding:20px;background:radial-gradient(ellipse at center,#160b2e 0%,#05030b 100%);
+  box-shadow:inset 0 0 50px #000,inset 0 0 0 2px #2b1752;position:relative;overflow:hidden}
+.screen:after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,#0000 0 2px,#00000026 2px 3px);mix-blend-mode:multiply}
+.hud{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+  font:700 13px ui-monospace,"Courier New",monospace;letter-spacing:.14em;color:var(--dim);margin:0 4px 16px}
+.hud b{color:var(--gold);text-shadow:0 0 8px #ffd23f88}
+.blink{animation:bl 1s steps(1) infinite;color:var(--neon)}@keyframes bl{50%{opacity:0}}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media(max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+.card{all:unset;cursor:pointer;display:flex;flex-direction:column;border-radius:12px;overflow:hidden;
+  background:var(--panel);border:2px solid color-mix(in srgb,var(--c) 55%,#000);
+  box-shadow:0 0 0 1px #000,0 6px 20px #0008;transition:transform .15s,box-shadow .15s,border-color .15s;position:relative}
+.card:hover,.card:focus-visible{transform:translateY(-4px) scale(1.015);border-color:var(--c);
+  box-shadow:0 0 0 1px #000,0 0 26px color-mix(in srgb,var(--c) 70%,transparent),0 10px 30px #000a}
+.shot{position:relative;aspect-ratio:16/10;background:#000 center/cover no-repeat}
+.shot:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,#120a24 100%)}
+.num{position:absolute;top:8px;left:8px;z-index:1;width:30px;height:30px;border-radius:7px;display:grid;place-items:center;
+  font:900 16px ui-monospace,monospace;background:#000c;color:var(--c);border:2px solid var(--c);text-shadow:0 0 8px var(--c)}
+.tag{position:absolute;top:10px;right:10px;z-index:1;font:700 10px ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;
+  padding:4px 7px;border-radius:5px;background:#000b;color:var(--c);border:1px solid color-mix(in srgb,var(--c) 60%,transparent)}
+.newb{position:absolute;left:8px;bottom:8px;z-index:2;font:800 10.5px ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 8px;border-radius:999px;color:#1a0a00;background:linear-gradient(180deg,#fff27a,#ffd23f);border:1px solid #fff8;
+  box-shadow:0 0 10px #ffd23fcc,0 0 22px #ff3fb466;animation:newp 1.6s ease-in-out infinite}
+@keyframes newp{50%{box-shadow:0 0 4px #ffd23f88,0 0 10px #ff3fb433;transform:scale(.96)}}
+@media(prefers-reduced-motion:reduce){.newb{animation:none}}
+.body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:7px;flex:1}
+.body h2{margin:0;font:800 19px/1.15 system-ui,sans-serif;color:#fff;text-shadow:0 0 10px color-mix(in srgb,var(--c) 60%,transparent)}
+.body p{margin:0;color:var(--dim);font-size:13.5px;line-height:1.42;flex:1}
+.go{margin-top:4px;display:flex;justify-content:space-between;align-items:center;font:800 12px ui-monospace,monospace;letter-spacing:.16em;color:var(--c)}
+.go small{color:#6f6590;font-weight:600;letter-spacing:.05em}
+.card:hover .go span:first-child{animation:bl .6s steps(1) infinite}
+.deck{margin-top:12px;display:flex;justify-content:center;gap:26px;padding:14px;border-radius:8px 8px 18px 18px;
+  background:linear-gradient(180deg,#1b0d36,#0e0720);border:3px solid #33195f;box-shadow:0 0 0 6px #0c0619}
+.btn{width:34px;height:34px;border-radius:50%;box-shadow:inset 0 -4px 0 #0006,0 0 14px currentColor}
+.coin{font:700 12px ui-monospace,monospace;letter-spacing:.2em;color:var(--dim);align-self:center}
+footer{text-align:center;color:#6f6590;font:12px ui-monospace,monospace;margin-top:14px;letter-spacing:.05em}
+/* player */
+#player{position:fixed;inset:0;display:none;flex-direction:column;background:#000;z-index:10}
+#player.on{display:flex}
+#bar{display:flex;align-items:center;gap:10px;padding:8px 12px;background:#120a24;border-bottom:2px solid var(--pc,#ff3fb4);
+  font:700 13px ui-monospace,monospace;letter-spacing:.08em}
+#bar .t{flex:1;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#bar button{font:700 12px ui-monospace,monospace;letter-spacing:.08em;color:#fff;background:#24124a;border:1px solid #5b2aa0;
+  border-radius:6px;padding:7px 11px;cursor:pointer}
+#bar button:hover{border-color:var(--pc);box-shadow:0 0 12px var(--pc)}
+#frame{flex:1;width:100%;border:0;background:#fff}
+</style>
+</head>
+<body>
+<div class="cab" id="cab">
+  <header class="marquee">
+    <div class="bulbs t" id="bt"></div>
+    <h1>RESET-DAY ARCADE</h1>
+    <p><span id="gcount">EIGHT</span> GAMES &middot; BUILT THU OCT 15, 2026 &middot; PLAYS OFFLINE</p>
+    <div class="bulbs b" id="bb"></div>
+  </header>
+  <div class="bezel"><div class="screen">
+    <div class="hud"><span>PLAYER 1: <b>CHAR</b> &nbsp; PLAYER 2: <b>VIC</b></span><span class="blink">&#9654; PRESS 1&ndash;<span id="gmax">8</span> OR TAP A GAME</span><span>CREDITS <b>&infin;</b></span></div>
+    <div class="grid" id="grid"></div>
+  </div></div>
+  <div class="deck">
+    <div class="btn" style="color:#ff3fb4;background:#ff3fb4"></div><div class="btn" style="color:#38f0ff;background:#38f0ff"></div>
+    <div class="coin">INSERT COIN</div>
+    <div class="btn" style="color:#ffd23f;background:#ffd23f"></div><div class="btn" style="color:#7dff4f;background:#7dff4f"></div>
+  </div>
+  <footer>One file, no network. Saves stay in this browser's localStorage. Close a game with the &#10005; button.</footer>
+</div>
+<div id="player" role="dialog" aria-label="Game player">
+  <div id="bar"><span class="t" id="pt"></span>
+    <button id="pnew" title="Open this game in its own tab">Open in new tab &#8599;</button>
+    <button id="pclose" title="Back to the arcade">&#10005; Back to arcade</button></div>
+  <iframe id="frame" title="Game" allow="autoplay; fullscreen; gamepad" allowfullscreen></iframe>
+</div>
+<script id="arcade-data" type="application/json">/*__ARCADE_DATA__*/null</script>
+<script>
+(function(){
+  "use strict";
+  var DATA = JSON.parse(document.getElementById("arcade-data").textContent);
+  var G = DATA.games, urls = {};
+  ["bt","bb"].forEach(function(id){var e=document.getElementById(id);for(var i=0;i<26;i++)e.appendChild(document.createElement("i"));});
+  function urlFor(g){
+    if (DATA.linked) return g.html;
+    if (!urls[g.id]) {
+      var bin = atob(g.b64), u8 = new Uint8Array(bin.length);
+      for (var i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i);
+      urls[g.id] = URL.createObjectURL(new Blob([u8],{type:"text/html;charset=utf-8"}));
+    }
+    return urls[g.id];
+  }
+  var grid = document.getElementById("grid");
+  var WORDS=["ZERO","ONE","TWO","THREE","FOUR","FIVE","SIX","SEVEN","EIGHT","NINE"];
+  document.getElementById("gcount").textContent=WORDS[G.length]||String(G.length);
+  document.getElementById("gmax").textContent=String(G.length);
+  G.forEach(function(g,i){
+    var b = document.createElement("button");
+    b.className="card"; b.style.setProperty("--c",g.color); b.dataset.id=g.id; b.setAttribute("aria-label","Play "+g.title);
+    b.innerHTML='<div class="shot"><span class="num">'+(i+1)+'</span><span class="tag"></span></div>'+
+      '<div class="body"><h2></h2><p></p><div class="go"><span>&#9654; PLAY</span><small></small></div></div>';
+    b.querySelector(".shot").style.backgroundImage='url("'+g.thumb+'")';
+    b.querySelector(".tag").textContent=g.tag;
+    if(g.new){var nb=document.createElement("span");nb.className="newb";nb.textContent="\u2605 Tonight\u2019s new";
+      b.querySelector(".shot").appendChild(nb);b.setAttribute("aria-label","Play "+g.title+" (tonight\u2019s new)");}
+    b.querySelector("h2").textContent=g.title;
+    b.querySelector("p").textContent=g.desc;
+    b.querySelector("small").textContent=g.kb+" KB";
+    b.addEventListener("click",function(){open(g.id);});
+    grid.appendChild(b);
+  });
+  var player=document.getElementById("player"), frame=document.getElementById("frame"), cur=null;
+  function open(id){
+    var g=G.filter(function(x){return x.id===id;})[0]; if(!g) return false;
+    cur=g; document.getElementById("pt").textContent="\u25B6 "+g.title.toUpperCase();
+    player.style.setProperty("--pc",g.color); player.classList.add("on");
+    document.body.style.overflow="hidden";
+    frame.onload=function(){try{frame.contentWindow.focus();}catch(e){}};
+    frame.src=urlFor(g); location.hash=g.id; return true;
+  }
+  function close(){
+    player.classList.remove("on"); frame.onload=null; frame.src="about:blank"; cur=null; document.body.style.overflow="";
+    if(location.hash) history.replaceState(null,"",location.pathname+location.search);
+    var c=document.querySelector('.card'); if(c) c.focus();
+  }
+  document.getElementById("pclose").onclick=close;
+  document.getElementById("pnew").onclick=function(){ if(cur) window.open(urlFor(cur),"_blank"); };
+  document.addEventListener("keydown",function(e){
+    if(player.classList.contains("on")) return;
+    var n=parseInt(e.key,10); if(n>=1&&n<=G.length) open(G[n-1].id);
+  });
+  window.__ARCADE__={open:open,close:close,games:G.map(function(g){return g.id;}),current:function(){return cur&&cur.id;}};
+  if(location.hash.length>1) open(location.hash.slice(1));
+})();
+</script>
+</body>
+</html>
