@@ -27,7 +27,7 @@ GAMES = [
          desc="Steer a robot up a 5-lane neon road, then train a bot with real Q-learning, watch its score climb, and race it on the same seeded track."),
     dict(id="hornets-anthem", title="Hornets Anthem", html="hornets-anthem.html",
          shot="hornets-anthem/screenshots/00-best-release.png", color="#7dff4f", tag="Music release",
-         desc="\u201cBuzz Like Thunder\u201d for the Green Hornets 12U: original lyrics, a WebAudio track, karaoke lyric video, lyric sheet and share card."),
+         desc="\u201cBuzz Like Thunder\u201d for the Blue Comets 12U: original lyrics, a WebAudio track, karaoke lyric video, lyric sheet and share card."),
 ]
 
 def thumb(path):
