@@ -10,7 +10,7 @@ DIST = os.path.join(ROOT, "dist")
 LINKED = "--linked" in sys.argv  # fallback: link sibling HTMLs instead of embedding
 
 GAMES = [
-    dict(id="escape-room", title="Boyd Family Escape Room", html="escape-room.html",
+    dict(id="escape-room", title="Rivera Family Escape Room", html="escape-room.html",
          shot="escape-room/screenshots/00-best-title.png", color="#ffcc33", tag="Co-op puzzles",
          desc="Offline co-op escape room: clear six themed rooms (crabs, rockets, sports, robots, word play, vault) to win the control-room keys back from the helper bots."),
     dict(id="mars-colony", title="Mars Colony Sim", html="mars-colony.html",
